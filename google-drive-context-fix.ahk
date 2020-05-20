@@ -16,7 +16,10 @@ setRegistry(false)
 OnExit("exitFunc")
 
 ; Don't bother executing any hooks below at all unless actually in Explorer.
-#IfWinActive ahk_class CabinetWClass
+GroupAdd, vGroupDesktop, ahk_class Progman ;desktop
+GroupAdd, vGroupDesktop, ahk_class CabinetWClass ;explorer
+
+#IfWinActive ahk_group vGroupDesktop
 
 ; Register shift key hooks.
 ~Shift::
