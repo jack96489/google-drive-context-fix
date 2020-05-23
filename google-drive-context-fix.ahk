@@ -17,9 +17,10 @@ OnExit("exitFunc")
 
 ; Don't bother executing any hooks below at all unless actually in Explorer.
 GroupAdd, vGroupDesktop, ahk_class Progman ;desktop
+GroupAdd, vGroupDesktop, ahk_class WorkerW ;desktop
 GroupAdd, vGroupDesktop, ahk_class CabinetWClass ;explorer
 
-#IfWinActive ahk_group vGroupDesktop
+#If (WinActive("ahk_group vGroupDesktop") and WinActive("ahk_exe Explorer.EXE"))
 
 ; Register shift key hooks.
 ~Shift::
