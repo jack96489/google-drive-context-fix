@@ -9,7 +9,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 #NoEnv
+#SingleInstance force
 
+if(!A_IsAdmin)
+{	
+	MsgBox, 52, , Script is running without admin rights! It may not be able to edit registry keys. Would you like to restart this script as admin?
+	IfMsgBox Yes 
+	{
+		Run *RunAs "%A_ScriptFullPath%" 
+		ExitApp
+	}
+}
+	
 current := true
 
 ; Initialize ensuring Google Drive shell context are disabled.
