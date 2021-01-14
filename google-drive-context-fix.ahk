@@ -8,6 +8,7 @@
 ;; can modify those keys without having to launch as administrator (like if you start this when logging in).  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+current := true
 
 ; Initialize ensuring Google Drive shell context are disabled.
 setRegistry(false)
@@ -20,11 +21,13 @@ GroupAdd, vGroupDesktop, ahk_class Progman ;desktop
 GroupAdd, vGroupDesktop, ahk_class WorkerW ;desktop
 GroupAdd, vGroupDesktop, ahk_class CabinetWClass ;explorer
 
+
 #If (WinActive("ahk_group vGroupDesktop") and WinActive("ahk_exe Explorer.EXE"))
 
 ; Register shift key hooks.
 ~Shift::
 	setRegistry(true)
+	KeyWait, Shift
 return
 
 ~Shift Up::
@@ -33,23 +36,26 @@ return
 
 
 setRegistry(enable) {
-	prefix:="-"
-	if (enable) {
-		prefix:=""
+	if(current != enable){
+		prefix := "-"
+		if (enable) {
+			prefix := ""
+		}
+		
+		; The extra comma in parameter list is an empty value for the "(Default)" value for the key (as you'd see it in regedit).
+		; See: https://autohotkey.com/docs/commands/RegWrite.htm
+		
+		; Directories
+		RegWrite, REG_SZ, HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\GDContextMenu, , %prefix%{BB02B294-8425-42E5-983F-41A1FA970CD6}
+		RegWrite, REG_SZ, HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\DriveFS 28 or later, , %prefix%{EE15C2BD-CECB-49F8-A113-CA1BFC528F5B}
+		
+		; Files
+		RegWrite, REG_SZ, HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\GDContextMenu, , %prefix%{BB02B294-8425-42E5-983F-41A1FA970CD6}
+		RegWrite, REG_SZ, HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\DriveFS 28 or later, , %prefix%{EE15C2BD-CECB-49F8-A113-CA1BFC528F5B}
+		
+		current := enable
 	}
-	
-	; The extra comma in parameter list is an empty value for the "(Default)" value for the key (as you'd see it in regedit).
-	; See: https://autohotkey.com/docs/commands/RegWrite.htm
-	
-	; Directories
-	RegWrite, REG_SZ, HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\GDContextMenu, , %prefix%{BB02B294-8425-42E5-983F-41A1FA970CD6}
-	RegWrite, REG_SZ, HKEY_CLASSES_ROOT\Directory\shellex\ContextMenuHandlers\DriveFS 28 or later, , %prefix%{EE15C2BD-CECB-49F8-A113-CA1BFC528F5B}
-	
-	; Files
-	RegWrite, REG_SZ, HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\GDContextMenu, , %prefix%{BB02B294-8425-42E5-983F-41A1FA970CD6}
-	RegWrite, REG_SZ, HKEY_CLASSES_ROOT\*\shellex\ContextMenuHandlers\DriveFS 28 or later, , %prefix%{EE15C2BD-CECB-49F8-A113-CA1BFC528F5B}
 }
-
 ; Reverts back to enabling drive on exit.
 exitFunc() {
 	setRegistry(true)
