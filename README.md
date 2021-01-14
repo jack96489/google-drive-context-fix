@@ -8,7 +8,7 @@ Normally this isn't necessary and can configured to work this way by just adding
 
 Example of <kbd>right-click</kbd> (faster) and then <kbd>right-click</kbd> + <kbd>shift</kbd> (slower) but still includes the Google Drive options and *only* when you actually need them.
 
-![Demo](demo.gif)
+![Demo](images/demo.gif)
 
 
 ## Installation Instructions
