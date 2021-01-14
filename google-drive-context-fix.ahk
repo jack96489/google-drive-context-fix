@@ -8,6 +8,8 @@
 ;; can modify those keys without having to launch as administrator (like if you start this when logging in).  ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+#NoEnv
+
 current := true
 
 ; Initialize ensuring Google Drive shell context are disabled.
