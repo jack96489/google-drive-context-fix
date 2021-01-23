@@ -41,9 +41,6 @@ GroupAdd, vGroupDesktop, ahk_class CabinetWClass ;explorer
 ~Shift::
 	setRegistry(true)
 	KeyWait, Shift
-return
-
-~Shift Up::
 	setRegistry(false)
 return
 
